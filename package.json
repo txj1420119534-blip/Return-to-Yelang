@@ -5,7 +5,7 @@
   "description": "《重返夜郎国》48h Hackathon monorepo root",
   "packageManager": "pnpm@9.0.0",
   "scripts": {
-    "build": "npm --prefix web run build",
+    "build": "npm --prefix web run build && node scripts/prepare-sites-output.mjs",
     "dev:server": "pnpm --filter @yelang/server dev",
     "dev:web": "pnpm --filter @yelang/web dev",
     "smoke": "bash server/tests/smoke.sh",

@@ -13,12 +13,12 @@ import {
   NpcsPage,
   PerformancesPage,
   RecordsPage
-} from './pages/Day1Pages';
-import { CityPage, ConvoyPage, Day2HubPage, GranaryPage, OutpostPage, ResourcesPage, TasksPage } from './pages/Day2Pages';
-import EndingPage from './pages/EndingPage';
-import EnrollPage from './pages/EnrollPage';
-import PaintWallPage from './pages/PaintWallPage';
-import AdminPage from './pages/AdminPage';
+} from './screens/Day1Pages';
+import { CityPage, ConvoyPage, Day2HubPage, GranaryPage, OutpostPage, ResourcesPage, TasksPage } from './screens/Day2Pages';
+import EndingPage from './screens/EndingPage';
+import EnrollPage from './screens/EnrollPage';
+import PaintWallPage from './screens/PaintWallPage';
+import AdminPage from './screens/AdminPage';
 import { BackgroundMusic } from './components/BackgroundMusic';
 
 function canonicalPath(state?: string | null) {

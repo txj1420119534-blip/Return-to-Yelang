@@ -1,0 +1,82 @@
+[
+  {
+    "id": "11111111-1111-1111-1111-000000000001",
+    "npc_id": "npc-01",
+    "day": 1,
+    "type": "寻迹",
+    "description": "找到夜郎谷入口的两只石羊，拍下正面照",
+    "reward_json": { "fragment": { "pattern": "石", "delta": 1 }, "res": [], "inventory": null },
+    "one_time_code": "NPC-A7Q3",
+    "source": "Demo 路线设计"
+  },
+  {
+    "id": "11111111-1111-1111-1111-000000000002",
+    "npc_id": "npc-02",
+    "day": 2,
+    "type": "搬运",
+    "description": "把两袋工材搬到城门集结点",
+    "reward_json": { "fragment": null, "res": [{ "res_type": "工材", "delta": 2 }], "inventory": null },
+    "one_time_code": "NPC-K2M1",
+    "source": "游戏演绎"
+  },
+  {
+    "id": "11111111-1111-1111-1111-000000000003",
+    "npc_id": "npc-03",
+    "day": 1,
+    "type": "协作",
+    "description": "在染纹台协助另一位玩家完成一次拓印",
+    "reward_json": { "fragment": { "pattern": "人", "delta": 1 }, "res": [], "inventory": null },
+    "one_time_code": "NPC-R8D4",
+    "source": "Demo 工坊占位任务"
+  },
+  {
+    "id": "11111111-1111-1111-1111-000000000004",
+    "npc_id": "npc-04",
+    "day": 1,
+    "type": "体验",
+    "description": "完成一枚陶土信纹并拍下成品",
+    "reward_json": { "fragment": { "pattern": "工", "delta": 1 }, "res": [], "inventory": null },
+    "one_time_code": "NPC-T4H8",
+    "source": "Demo 体验设计"
+  },
+  {
+    "id": "11111111-1111-1111-1111-000000000005",
+    "npc_id": "npc-05",
+    "day": 2,
+    "type": "补给",
+    "description": "把晚宴余下的密封补给送到城内粮仓",
+    "reward_json": { "fragment": null, "res": [{ "res_type": "粮草", "delta": 3 }], "inventory": null },
+    "one_time_code": "NPC-G5C9",
+    "source": "游戏演绎"
+  },
+  {
+    "id": "11111111-1111-1111-1111-000000000006",
+    "npc_id": "npc-06",
+    "day": 2,
+    "type": "侦察",
+    "description": "抵达任意一座哨站并扫描点位码",
+    "reward_json": { "fragment": null, "res": [{ "res_type": "铜令", "delta": 2 }], "inventory": null },
+    "one_time_code": "NPC-S6T2",
+    "source": "游戏演绎"
+  },
+  {
+    "id": "11111111-1111-1111-1111-000000000007",
+    "npc_id": "npc-07",
+    "day": 1,
+    "type": "核验",
+    "description": "找到一张文化卡的来源并完成四层分类",
+    "reward_json": { "fragment": { "pattern": "证", "delta": 1 }, "res": [], "inventory": null },
+    "one_time_code": "NPC-Z3S7",
+    "source": "项目内容分层练习"
+  },
+  {
+    "id": "11111111-1111-1111-1111-000000000008",
+    "npc_id": "npc-08",
+    "day": 2,
+    "type": "说面",
+    "description": "向队友讲清自己面具上最重要的一道纹",
+    "reward_json": { "fragment": null, "res": [{ "res_type": "民心", "delta": 3 }], "inventory": null },
+    "one_time_code": "NPC-M8R1",
+    "source": "游戏演绎"
+  }
+]

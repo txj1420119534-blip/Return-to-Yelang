@@ -1,0 +1,29 @@
+[
+  {
+    "id": "atk-gate-1",
+    "target_type": "gate",
+    "target_id": "main",
+    "weight": 3,
+    "cost": { "gong_cai": 2 },
+    "effect": { "gate_hp": -8 },
+    "narration": "新火盟以撞车冲击城门。"
+  },
+  {
+    "id": "raid-grain-1",
+    "target_type": "grain",
+    "target_id": "main",
+    "weight": 2,
+    "cost": { "liang_cao": 1 },
+    "effect": { "grain_blocked_min": 5 },
+    "narration": "新火盟派人卡粮草通道。"
+  },
+  {
+    "id": "take-tower-1",
+    "target_type": "tower",
+    "target_id": "a",
+    "weight": 2,
+    "cost": { "tong_ling": 1 },
+    "effect": { "tower_a": "新火盟" },
+    "narration": "新火盟抢占甲哨塔。"
+  }
+]

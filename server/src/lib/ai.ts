@@ -1,6 +1,5 @@
 import Anthropic from '@anthropic-ai/sdk';
 import { z, ZodTypeAny } from 'zod';
-import 'dotenv/config';
 
 const apiKey = process.env.ANTHROPIC_API_KEY ?? '';
 const model = process.env.ANTHROPIC_MODEL ?? 'claude-sonnet-5';

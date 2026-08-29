@@ -1,19 +1,31 @@
 {
   "compilerOptions": {
     "target": "ES2022",
-    "useDefineForClassFields": true,
     "lib": ["ES2022", "DOM", "DOM.Iterable"],
     "module": "ESNext",
     "skipLibCheck": true,
     "moduleResolution": "Bundler",
     "allowImportingTsExtensions": true,
+    "allowJs": true,
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
     "isolatedModules": true,
-    "moduleDetection": "force",
     "noEmit": true,
     "jsx": "react-jsx",
     "strict": true,
     "noUnusedLocals": false,
-    "noUnusedParameters": false
+    "noUnusedParameters": false,
+    "types": ["@cloudflare/workers-types", "vinext/client"]
   },
-  "include": ["src"]
+  "include": [
+    "app/**/*.ts",
+    "app/**/*.tsx",
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "worker/**/*.ts",
+    "db/**/*.ts",
+    "next-env.d.ts",
+    "../server/src/**/*.ts"
+  ],
+  "exclude": ["node_modules", "dist"]
 }

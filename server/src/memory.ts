@@ -1,8 +1,9 @@
 import { randomUUID } from 'node:crypto';
-import { readFileSync } from 'node:fs';
-import path from 'node:path';
-import { fileURLToPath } from 'node:url';
-import { DEFAULT_EVENT_ID } from './lib/db.js';
+import cardsJson from './content/cards.json';
+import questsJson from './content/quests.json';
+import botActionsJson from './content/bot_actions.json';
+import npcsJson from './content/npcs.json';
+import mottoTemplatesJson from './content/motto_templates.json';
 
 export type Fragments = {
   zheng: number;
@@ -130,29 +131,13 @@ export type BotAction = {
 
 export type Npc = { id: string; name: string; role: string; location: string; layer: string; source: string };
 
-const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../../');
+export const cards = cardsJson as ContentCard[];
+export const quests = questsJson as Quest[];
+export const botActions = botActionsJson as unknown as BotAction[];
+export const npcs = npcsJson as Npc[];
+export const mottoTemplates = mottoTemplatesJson as Record<string, string[]>;
 
-function loadJson<T>(rel: string, fallback: T): T {
-  try {
-    return JSON.parse(readFileSync(path.join(root, rel), 'utf8')) as T;
-  } catch {
-    return fallback;
-  }
-}
-
-export const cards = loadJson<ContentCard[]>('content/cards.json', []);
-export const quests = loadJson<Quest[]>('content/quests.json', []);
-export const botActions = loadJson<BotAction[]>('content/bot_actions.json', []);
-export const npcs = loadJson<Npc[]>('content/npcs.json', []);
-export const mottoTemplates = loadJson<Record<string, string[]>>('content/motto_templates.json', {
-  证: ['以仁为骨'],
-  石: ['以义为字'],
-  工: ['以礼为言'],
-  人: ['以智为镜'],
-  火: ['以信为心']
-});
-
-export const EVENT_ID = DEFAULT_EVENT_ID;
+export const EVENT_ID = process.env.EVENT_ID ?? '00000000-0000-0000-0000-000000000001';
 
 const CN_TO_KEY: Record<string, keyof Fragments> = {
   证: 'zheng',
@@ -203,14 +188,16 @@ export function assetPart(id: string): string {
 
 const players = new Map<string, Player>();
 const masks = new Map<string, Mask>();
-const inventory: Array<{
+type InventoryItem = {
   id: string;
   player_id: string;
   source_type: string;
   name: string;
   description?: string;
   day2_effect_json: { res_type: string; delta: number; one_time: boolean } | null;
-}> = [];
+};
+
+const inventory: InventoryItem[] = [];
 const scanned = new Set<string>();
 const claimed = new Set<string>();
 const completed = new Set<string>();
@@ -254,6 +241,124 @@ export const battleLog: Array<{
   at: string;
   actor: string;
 }> = [];
+
+export type MemorySnapshot = {
+  players: Player[];
+  masks: Mask[];
+  inventory: InventoryItem[];
+  scanned: string[];
+  claimed: string[];
+  completed: string[];
+  usedCodes: string[];
+  ledger: LedgerRow[];
+  wall: Array<{ player_id: string; pattern_id: string; at: string }>;
+  analytics: Array<{ event_type: string; player_id?: string; payload?: unknown; at: string }>;
+  registrations: Day2Registration[];
+  escortRuns: EscortRun[];
+  day2ScanKeys: string[];
+  eventPhase: Array<[string, PlayerState]>;
+  day2Provisioned: string[];
+  battleByRound: Array<[string, BattleState]>;
+  battleLog: typeof battleLog;
+};
+
+/** Creates a JSON-safe snapshot for the Sites D1 persistence adapter. */
+export function exportMemoryState(): MemorySnapshot {
+  return {
+    players: [...players.values()],
+    masks: [...masks.values()],
+    inventory: [...inventory],
+    scanned: [...scanned],
+    claimed: [...claimed],
+    completed: [...completed],
+    usedCodes: [...usedCodes],
+    ledger: [...ledger],
+    wall: [...wall],
+    analytics: [...analytics],
+    registrations: [...registrations.values()],
+    escortRuns: [...escortRuns.values()],
+    day2ScanKeys: [...day2ScanKeys],
+    eventPhase: [...eventPhase.entries()],
+    day2Provisioned: [...day2Provisioned],
+    battleByRound: [...battleByRound.entries()],
+    battleLog: [...battleLog]
+  };
+}
+
+/** Replaces the process cache with the latest durable Sites snapshot. */
+export function importMemoryState(snapshot: MemorySnapshot | null | undefined) {
+  players.clear();
+  masks.clear();
+  inventory.splice(0);
+  scanned.clear();
+  claimed.clear();
+  completed.clear();
+  usedCodes.clear();
+  ledger.splice(0);
+  wall.splice(0);
+  wallPlayers.clear();
+  analytics.splice(0);
+  registrations.clear();
+  escortRuns.clear();
+  day2ScanKeys.clear();
+  eventPhase.clear();
+  day2Provisioned.clear();
+  battleByRound.clear();
+  battleLog.splice(0);
+
+  if (!snapshot) {
+    for (const round of rounds) {
+      battleByRound.set(round.id, {
+        round_id: round.id,
+        gate_hp: 100,
+        grain_blocked_min: 0,
+        tower_a: '守文盟',
+        tower_b: '守文盟',
+        tower_c: null,
+        attacker_camps: 4,
+        cars_delivered: 0,
+        cars_broken: 0
+      });
+    }
+    return;
+  }
+
+  for (const player of snapshot.players ?? []) players.set(player.id, player);
+  for (const mask of snapshot.masks ?? []) masks.set(mask.player_id, mask);
+  inventory.push(...(snapshot.inventory ?? []));
+  for (const key of snapshot.scanned ?? []) scanned.add(key);
+  for (const key of snapshot.claimed ?? []) claimed.add(key);
+  for (const key of snapshot.completed ?? []) completed.add(key);
+  for (const key of snapshot.usedCodes ?? []) usedCodes.add(key);
+  ledger.push(...(snapshot.ledger ?? []));
+  wall.push(...(snapshot.wall ?? []));
+  for (const stroke of wall) wallPlayers.add(stroke.player_id);
+  analytics.push(...(snapshot.analytics ?? []));
+  for (const registration of snapshot.registrations ?? []) {
+    registrations.set(`${registration.player_id}:${registration.mission_type}:${registration.target_id}`, registration);
+  }
+  for (const run of snapshot.escortRuns ?? []) escortRuns.set(run.route, run);
+  for (const key of snapshot.day2ScanKeys ?? []) day2ScanKeys.add(key);
+  for (const [eventId, phase] of snapshot.eventPhase ?? []) eventPhase.set(eventId, phase);
+  for (const playerId of snapshot.day2Provisioned ?? []) day2Provisioned.add(playerId);
+  for (const [roundId, state] of snapshot.battleByRound ?? []) battleByRound.set(roundId, state);
+  for (const round of rounds) {
+    if (!battleByRound.has(round.id)) {
+      battleByRound.set(round.id, {
+        round_id: round.id,
+        gate_hp: 100,
+        grain_blocked_min: 0,
+        tower_a: '守文盟',
+        tower_b: '守文盟',
+        tower_c: null,
+        attacker_camps: 4,
+        cars_delivered: 0,
+        cars_broken: 0
+      });
+    }
+  }
+  battleLog.push(...(snapshot.battleLog ?? []));
+}
 
 export function getPlayer(id: string): Player | undefined {
   return players.get(id);

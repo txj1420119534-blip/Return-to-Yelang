@@ -78,7 +78,7 @@
     "source": "夜郎谷现场说明 / 贵州省博物馆展陈对照",
     "layer": "谷中艺术",
     "scene_id": "shicheng-01",
-    "audio_url": "assets/audio/shicheng-01.mp3",
+    "audio_url": null,
     "fragment": { "pattern": "石", "delta": 1 },
     "codes": ["scene:shicheng-01", "shicheng-01", "石城", "石城之眼"]
   },
@@ -89,7 +89,7 @@
     "source": "贵州省博物馆展陈说明",
     "layer": "史证",
     "scene_id": "tongling-01",
-    "audio_url": "assets/audio/tongling-01.mp3",
+    "audio_url": null,
     "fragment": { "pattern": "证", "delta": 1 },
     "codes": ["exhibit:tongling-01", "tongling-01", "铜令"]
   },

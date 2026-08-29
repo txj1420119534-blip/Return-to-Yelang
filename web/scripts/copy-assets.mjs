@@ -4,7 +4,10 @@ import { fileURLToPath } from 'node:url';
 
 const webRoot = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const source = resolve(webRoot, '../assets');
-const destination = resolve(webRoot, 'dist/assets');
+// Vinext's generated Worker serves static files from `dist/client`.
+// Keep the shared project assets inside that published directory so
+// `/assets/*` resolves the same way in local previews and on Sites.
+const destination = resolve(webRoot, 'dist/client/assets');
 
 if (!existsSync(source)) {
   throw new Error(`Shared assets directory is missing: ${source}`);
@@ -23,4 +26,4 @@ function copyDirectory(from, to) {
 }
 
 copyDirectory(source, destination);
-console.log('copied shared yelang assets into dist/assets');
+console.log('copied shared yelang assets into dist/client/assets');

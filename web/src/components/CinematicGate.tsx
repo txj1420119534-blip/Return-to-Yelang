@@ -4,6 +4,7 @@ export function CinematicGate({ src, kind, title, onComplete }: { src: string; k
   const videoRef = useRef<HTMLVideoElement>(null);
   const completeRef = useRef(onComplete);
   const [videoReady, setVideoReady] = useState(false);
+  const [audioEnabled, setAudioEnabled] = useState(false);
   const completed = useRef(false);
 
   useEffect(() => {
@@ -23,6 +24,19 @@ export function CinematicGate({ src, kind, title, onComplete }: { src: string; k
     completeRef.current();
   }
 
+  function enableAudio() {
+    const video = videoRef.current;
+    if (!video || audioEnabled) return;
+    video.muted = false;
+    video.volume = 1;
+    video.currentTime = 0;
+    setAudioEnabled(true);
+    void video.play().catch(() => {
+      video.muted = true;
+      setAudioEnabled(false);
+    });
+  }
+
   return (
     <section className={`cinematic cinematic--${kind}`} aria-label={title}>
       <video
@@ -30,13 +44,23 @@ export function CinematicGate({ src, kind, title, onComplete }: { src: string; k
         className={`cinematic-video ${videoReady ? 'is-ready' : ''}`}
         src={src}
         autoPlay
-        muted
+        muted={!audioEnabled}
         playsInline
         preload="auto"
         onCanPlay={() => setVideoReady(true)}
         onEnded={finish}
         onError={finish}
       />
+      {!audioEnabled && (
+        <button
+          type="button"
+          className="cinematic-audio-trigger"
+          aria-label="开启开场视频声音并从头播放"
+          onClick={enableAudio}
+        >
+          <span aria-hidden="true">♪</span>
+        </button>
+      )}
     </section>
   );
 }

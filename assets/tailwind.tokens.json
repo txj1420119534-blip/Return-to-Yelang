@@ -1,0 +1,41 @@
+{
+  "$schema": "https://tailwindcss.com/schema/tokens",
+  "name": "yelang-v1",
+  "description": "《重返夜郎国》视觉基调 - 石灰岩、深岩、孔雀绿、铜金、篝火、面纸、血朱。所有 SVG 部件 fill/stroke 应用 currentColor，由 Tailwind class 注入这七色之一。",
+  "colors": {
+    "shihui":     { "value": "#D8D3C4", "role": "石灰 · 主底色 / 面纸空白" },
+    "shenyan":    { "value": "#2A2E33", "role": "深岩 · 主前景 / 主要笔触" },
+    "kongqueLu":  { "value": "#3A6B5C", "role": "孔雀绿 · 守文盟 / 石纹" },
+    "tongjin":    { "value": "#B8894A", "role": "铜金 · 新火盟 / 铜令 / 工纹" },
+    "gouhuoCheng":{ "value": "#E56B3A", "role": "篝火橙 · 火纹 / 高潮转场" },
+    "mianzhiBai": { "value": "#F4EFE0", "role": "面纸白 · 卡片底 / 未绘白面" },
+    "xuezhu":     { "value": "#8C2E1F", "role": "血朱 · 强调 / 结局章 / 大面破裂" }
+  },
+  "tailwindExtend": {
+    "colors": {
+      "shihui": "#D8D3C4",
+      "shenyan": "#2A2E33",
+      "kongque": "#3A6B5C",
+      "tongjin": "#B8894A",
+      "gouhuo": "#E56B3A",
+      "mianzhi": "#F4EFE0",
+      "xuezhu": "#8C2E1F"
+    },
+    "fontFamily": {
+      "song":  ["\"Noto Serif SC\"", "\"Source Han Serif SC\"", "\"Songti SC\"", "serif"],
+      "hei":   ["\"Noto Sans SC\"", "\"Source Han Sans SC\"", "\"PingFang SC\"", "sans-serif"]
+    },
+    "borderWidth": { "stone": "3px" },
+    "boxShadow": {
+      "carve":  "inset 0 -2px 0 rgba(0,0,0,0.18), inset 0 2px 0 rgba(255,255,255,0.06)",
+      "torch":  "0 0 24px rgba(229,107,58,0.35)"
+    }
+  },
+  "notes": [
+    "所有 mask/* SVG 单色 currentColor，用 text-{color} 控制上色",
+    "阵营锁定后：守文盟->text-kongque，新火盟->text-tongjin",
+    "结局卡背景色应为 mianzhi 白，前景章印用 xuezhu",
+    "篝火橙 gouhuo 只用于 Day1 火纹相关与 Day2 高潮转场，不做常规背景",
+    "禁止使用彩虹色/廉价渐变；渐变仅允许 shenyan->kongque 或 shihui->mianzhi 的单向轻度过渡"
+  ]
+}

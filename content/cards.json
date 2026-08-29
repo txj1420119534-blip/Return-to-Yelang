@@ -1,0 +1,129 @@
+[
+  {
+    "id": "beast-fish-01",
+    "title": "寻源兽·鱼",
+    "body": "神职：寻源\n\n夜郎隐入历史后，它沿着最后的水脉逆流而上。\n河流会消失，城池会消失，但一个民族对来处的追寻不会消失。\n\n多年以后，宋培伦以石为骨，让它重新站在夜郎谷中。\n它守护的不是过去，而是每个来到这里的人心中最初的追问：\n寻夜郎，亦是寻自己。\n\n知道从哪里来，才知道往哪里去。\n\n生命关键词：寻",
+    "source": "《夜郎神兽》展览介绍",
+    "layer": "展览介绍",
+    "scene_id": "beast-fish-01",
+    "image_url": "/assets/day1/exhibits/beast-fish.jpg",
+    "audio_url": null,
+    "fragment": { "pattern": "证", "delta": 1 },
+    "codes": ["寻源兽·鱼", "寻源兽", "beast:fish"]
+  },
+  {
+    "id": "beast-bird-01",
+    "title": "破界兽·飞鸟",
+    "body": "神职：破界\n\n它生于夜郎，却从不沿着别人留下的路飞翔。\n旧国远去，它仍一次次越过山岭，寻找属于下一个时代的天空。\n\n宋培伦也没有复制一个消失的夜郎，而是用自己的艺术，让古老文明长出新的生命形态。\n传承不是重复昨天，而是带着根，走向从未抵达的地方。\n\n守住根，不困于过去。\n敢越过去，新的路才会出现。\n\n生命关键词：勇",
+    "source": "《夜郎神兽》展览介绍",
+    "layer": "展览介绍",
+    "scene_id": "beast-bird-01",
+    "image_url": "/assets/day1/exhibits/beast-bird.jpg",
+    "audio_url": null,
+    "fragment": { "pattern": "石", "delta": 1 },
+    "codes": ["破界兽·飞鸟", "破界兽", "beast:bird"]
+  },
+  {
+    "id": "beast-sun-01",
+    "title": "照心兽·日面",
+    "body": "神职：照心\n\n古夜郎传说中，它不守城池，不守财富，只守人的本心。\n王、勇士、商人、巫者来到它面前，所有身份都会暂时褪去，只剩下自己。\n\n宋培伦在夜郎谷留下无数面孔，仿佛也在向后来者发出同一个追问：\n当身份、得失与别人眼中的你都放下，你是谁？\n\n世人看见你的脸。\n它照见面具之后的你。\n\n生命关键词：真",
+    "source": "《夜郎神兽》展览介绍",
+    "layer": "展览介绍",
+    "scene_id": "beast-sun-01",
+    "image_url": "/assets/day1/exhibits/beast-sun.jpg",
+    "audio_url": null,
+    "fragment": { "pattern": "工", "delta": 1 },
+    "codes": ["照心兽·日面", "照心兽", "beast:sun"]
+  },
+  {
+    "id": "beast-city-01",
+    "title": "负山兽·驮城",
+    "body": "神职：负山\n\n夜郎远去之时，它背起火种、记忆与族人的希望，翻山而行。\n它背负的越来越重，却始终没有停下。\n\n多年以后，宋培伦搬石、垒墙、塑像、造谷，把几十年的生命一点点交给这片土地。\n真正的担当，从来不是背得最多，而是知道什么值得自己用一生守护。\n\n背得起，是力量。\n知道为何而背，才是心力。\n\n生命关键词：担",
+    "source": "《夜郎神兽》展览介绍",
+    "layer": "展览介绍",
+    "scene_id": "beast-city-01",
+    "image_url": "/assets/day1/exhibits/beast-city.jpg",
+    "audio_url": null,
+    "fragment": { "pattern": "人", "delta": 1 },
+    "codes": ["负山兽·驮城", "负山兽", "beast:city"]
+  },
+  {
+    "id": "beast-beak-01",
+    "title": "听世兽·长喙",
+    "body": "神职：听世\n\n它曾拥有夜郎最响亮的声音，却在岁月中渐渐学会了沉默。\n因为它发现，真正有力量的人，不只会表达自己，也能听见不同的生命。\n\n宋培伦没有让古老文化停留在过去，而是在倾听土地、历史与内心之后，用石头和艺术给出了自己的回答。\n人与人如此，文明亦如此。\n\n会说，是本事。\n真正听见，是生命开始相遇。\n\n生命关键词：听",
+    "source": "《夜郎神兽》展览介绍",
+    "layer": "展览介绍",
+    "scene_id": "beast-beak-01",
+    "image_url": "/assets/day1/exhibits/beast-beak.jpg",
+    "audio_url": null,
+    "fragment": { "pattern": "火", "delta": 1 },
+    "codes": ["听世兽·长喙", "听世兽", "beast:beak"]
+  },
+  {
+    "id": "beast-twin-01",
+    "title": "两极兽·双首",
+    "body": "神职：两极\n\n它有两个头，看向两个方向。\n一个守着夜郎的来处。\n一个望向夜郎的未来。\n\n它们曾彼此争执：一个怕失去根，一个怕失去生命。\n直到宋培伦以新的艺术语言让古老夜郎重新生长，它们才明白——过去与未来，从来不是敌人。\n\n真正的传承，是有人接住曾经的火，再把它交给下一个人。\n\n一首守来处，一首望未来。\n接住一团火，再把光给出去。\n\n生命关键词：给",
+    "source": "《夜郎神兽》展览介绍",
+    "layer": "展览介绍",
+    "scene_id": "beast-twin-01",
+    "image_url": "/assets/day1/exhibits/beast-twin.jpg",
+    "audio_url": null,
+    "fragment": { "pattern": "证", "delta": 1 },
+    "codes": ["两极兽·双首", "两极兽", "beast:twin"]
+  },
+  {
+    "id": "scene-shicheng-01",
+    "title": "石城之眼",
+    "body": "夜郎谷石城入口的第一块碑石。它不是都城遗址的铁证，而是谷中艺术与地方记忆叠在一起的入口。",
+    "source": "夜郎谷现场说明 / 贵州省博物馆展陈对照",
+    "layer": "谷中艺术",
+    "scene_id": "shicheng-01",
+    "audio_url": "assets/audio/shicheng-01.mp3",
+    "fragment": { "pattern": "石", "delta": 1 },
+    "codes": ["scene:shicheng-01", "shicheng-01", "石城", "石城之眼"]
+  },
+  {
+    "id": "exhibit-tongling-01",
+    "title": "铜令",
+    "body": "博物馆藏铜令，用来讲旧制与通行凭证，不把展品直接等同于古夜郎都城。",
+    "source": "贵州省博物馆展陈说明",
+    "layer": "史证",
+    "scene_id": "tongling-01",
+    "audio_url": "assets/audio/tongling-01.mp3",
+    "fragment": { "pattern": "证", "delta": 1 },
+    "codes": ["exhibit:tongling-01", "tongling-01", "铜令"]
+  },
+  {
+    "id": "workshop-mask-01",
+    "title": "傩面工坊",
+    "body": "非遗传承人现场教彩绘。玩家做的是夜郎艺术面 / 傩意面具，不称为传统傩神法面。",
+    "source": "现场工坊口述",
+    "layer": "活态非遗",
+    "scene_id": "mask-01",
+    "audio_url": null,
+    "fragment": { "pattern": "工", "delta": 1 },
+    "codes": ["workshop:mask-01", "mask-01", "工坊", "傩面工坊"]
+  },
+  {
+    "id": "scene-nuotai-01",
+    "title": "傩台",
+    "body": "谷中傩戏展演台。人与戏、看与被看在这里交会。",
+    "source": "夜郎谷演出说明",
+    "layer": "活态非遗",
+    "scene_id": "nuotai-01",
+    "audio_url": null,
+    "fragment": { "pattern": "人", "delta": 1 },
+    "codes": ["scene:nuotai-01", "nuotai-01", "傩台"]
+  },
+  {
+    "id": "scene-yanchu-01",
+    "title": "演出台",
+    "body": "篝火与傩面舞前的演出台。信纹在这里被点亮，不是历史结论，是当晚的共同行动。",
+    "source": "活动编排",
+    "layer": "游戏演绎",
+    "scene_id": "yanchu-01",
+    "audio_url": null,
+    "fragment": { "pattern": "火", "delta": 1 },
+    "codes": ["scene:yanchu-01", "yanchu-01", "演出台"]
+  }
+]

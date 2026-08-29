@@ -1,0 +1,20 @@
+{
+  "name": "重返夜郎国",
+  "short_name": "夜郎国",
+  "description": "贵客松沉浸式文化体验",
+  "start_url": "/enroll",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0c1014",
+  "theme_color": "#0c1014",
+  "lang": "zh-CN",
+  "icons": [
+    {
+      "src": "/assets/ui/logo.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

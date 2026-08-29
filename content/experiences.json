@@ -1,0 +1,34 @@
+[
+  {
+    "id": "exp-stone-trace",
+    "title": "石城寻踪",
+    "location": "石城之眼",
+    "duration_min": 15,
+    "description": "通过现场标识寻找石构细节，完成后获得义纹。",
+    "source": "谷中艺术 / Demo 路线设计"
+  },
+  {
+    "id": "exp-mask-craft",
+    "title": "傩意面具彩绘",
+    "location": "百工工坊",
+    "duration_min": 30,
+    "description": "制作夜郎艺术面或傩意面具，不称为传统傩神法面。",
+    "source": "项目圣经 §11.7 / 工坊活动"
+  },
+  {
+    "id": "exp-npc-bounty",
+    "title": "NPC 悬赏",
+    "location": "谷内多点",
+    "duration_min": 20,
+    "description": "帮助现场角色完成搬运、寻迹或核验，积累智纹和 Day2 物资。",
+    "source": "项目圣经 §3 / 游戏演绎"
+  },
+  {
+    "id": "exp-mask-wall",
+    "title": "共面仪式",
+    "location": "归面工坊",
+    "duration_min": 10,
+    "description": "提交唯一一道纹，在大面上留下自己的位置。",
+    "source": "项目圣经 §5 / 游戏演绎"
+  }
+]

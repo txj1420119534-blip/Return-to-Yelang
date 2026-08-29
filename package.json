@@ -1,0 +1,23 @@
+{
+  "name": "yelang",
+  "private": true,
+  "version": "0.1.0",
+  "description": "《重返夜郎国》48h Hackathon monorepo root",
+  "packageManager": "pnpm@9.0.0",
+  "scripts": {
+    "dev:server": "pnpm --filter @yelang/server dev",
+    "dev:web": "pnpm --filter @yelang/web dev",
+    "smoke": "bash server/tests/smoke.sh",
+    "db:reset": "supabase db reset",
+    "db:push": "supabase db push"
+  },
+  "engines": {
+    "node": ">=20",
+    "pnpm": ">=9"
+  },
+  "pnpm": {
+    "overrides": {
+      "esbuild": "0.21.5"
+    }
+  }
+}

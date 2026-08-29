@@ -1,0 +1,29 @@
+[
+  {
+    "id": "show-nuo-01",
+    "time": "19:20",
+    "title": "傩戏展演",
+    "location": "傩台",
+    "description": "观看现场审核后的展演内容；应用只做时间与地点引导。",
+    "reward": { "pattern": "火", "delta": 1 },
+    "source": "项目圣经 §3；演出内容待现场方审核"
+  },
+  {
+    "id": "show-mask-dance-01",
+    "time": "20:00",
+    "title": "傩面舞与篝火",
+    "location": "篝火场",
+    "description": "通过现场参与点亮信纹，并为共面仪式聚集玩家。",
+    "reward": { "pattern": "火", "delta": 1 },
+    "source": "项目圣经 §3 / 游戏演绎"
+  },
+  {
+    "id": "show-wall-01",
+    "time": "20:15",
+    "title": "傩面共绘",
+    "location": "归面工坊",
+    "description": "每位玩家选择唯一一道纹，共同点亮大面。",
+    "reward": { "pattern": "火", "delta": 1 },
+    "source": "项目圣经 §5 / 游戏演绎"
+  }
+]

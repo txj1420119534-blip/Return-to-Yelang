@@ -3,9 +3,12 @@ node_modules/
 dist/
 **/dist/
 web/output/
+.playwright-cli/
+playwright-report/
+test-results/
+.vinext/
 *.tsbuildinfo
 .env
 **/.env
 .DS_Store
 *.log
-

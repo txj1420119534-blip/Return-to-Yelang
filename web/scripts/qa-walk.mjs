@@ -1,4 +1,4 @@
-import { mkdirSync } from 'node:fs';
+import { mkdirSync, readFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import assert from 'node:assert/strict';
@@ -7,6 +7,9 @@ import { chromium } from 'playwright';
 const outDir = join(dirname(fileURLToPath(import.meta.url)), '../output/playwright');
 const baseUrl = process.env.BASE_URL || 'http://127.0.0.1:5173';
 const mobileWidth = Number(process.env.YELANG_QA_WIDTH ?? 390);
+const canonicalCards = JSON.parse(readFileSync(new URL('../../content/cards.json', import.meta.url), 'utf8'));
+const canonicalBeastCard = canonicalCards.find((card) => card.codes.includes('寻源兽·鱼'));
+assert.ok(canonicalBeastCard, 'content/cards.json contains the canonical 寻源兽·鱼 card');
 mkdirSync(outDir, { recursive: true });
 
 const browser = await chromium.launch({ args: ['--use-fake-ui-for-media-stream', '--use-fake-device-for-media-stream'] });
@@ -31,6 +34,20 @@ async function settleMotion() {
     const finite = document.getAnimations().filter((animation) => animation.effect?.getTiming().iterations !== Infinity);
     await Promise.allSettled(finite.map((animation) => animation.finished));
   });
+}
+
+async function assertImageLoaded(locator, expectedSrc) {
+  await locator.waitFor({ state: 'visible' });
+  await locator.evaluate(async (image, src) => {
+    if (image.getAttribute('src') !== src) throw new Error(`unexpected image source: ${image.getAttribute('src')}`);
+    if (!image.complete) {
+      await new Promise((resolve, reject) => {
+        image.addEventListener('load', resolve, { once: true });
+        image.addEventListener('error', () => reject(new Error(`image failed to load: ${src}`)), { once: true });
+      });
+    }
+    if (image.naturalWidth === 0) throw new Error(`image has no rendered width: ${src}`);
+  }, expectedSrc);
 }
 
 try {
@@ -62,14 +79,23 @@ try {
   page.setDefaultTimeout(15000);
   await page.goto(`${baseUrl}/enroll`, { waitUntil: 'domcontentloaded' });
   await page.locator('.cinematic--opening').waitFor({ state: 'visible' });
-  await settleMotion();
   await snap('01-opening-cinematic.png');
+  const openingVideo = page.locator('.cinematic--opening video');
+  assert.equal(await openingVideo.getAttribute('src'), '/assets/video/2.mp4');
+  await openingVideo.evaluate((video) => {
+    video.dispatchEvent(new Event('ended', { bubbles: true }));
+  });
   await page.locator('#player-name').waitFor({ state: 'visible', timeout: 9000 });
   await snap('02-enroll-white-mask.png');
 
   await page.locator('#player-name').fill('评委甲');
   await page.getByRole('button', { name: '领取白色面具' }).click();
   await page.waitForURL('**/day1');
+  const day1Poster = page.getByRole('button', { name: '收起 DAY ONE 海报，进入当天行程' });
+  await day1Poster.waitFor({ state: 'visible' });
+  await assertImageLoaded(day1Poster.locator('img'), '/assets/ui/Day1.png');
+  await snap('02a-day1-poster.png');
+  await day1Poster.click();
   await settleMotion();
   await page.locator('.app-brand-logo').waitFor({ state: 'visible' });
   assert.equal(await page.getByText('贵客松项目').count(), 0);
@@ -81,7 +107,8 @@ try {
   for (const label of ['仁', '义', '礼', '智', '信']) await page.locator('.frag-pip b', { hasText: label }).waitFor({ state: 'visible' });
   const virtueImages = page.locator('.frag-pip img');
   assert.equal(await virtueImages.count(), 5);
-  assert.equal(await virtueImages.evaluateAll((images) => images.every((image) => image.getAttribute('src')?.startsWith('/assets/day1/virtue-') && image.complete && image.naturalWidth > 0)), true);
+  await page.waitForFunction(() => Array.from(document.querySelectorAll('.frag-pip img')).every((image) => image instanceof HTMLImageElement && image.complete && image.naturalWidth > 0));
+  assert.equal(await virtueImages.evaluateAll((images) => images.every((image) => image.getAttribute('src')?.startsWith('/assets/virtues-cutout/') && image.complete && image.naturalWidth > 0)), true);
   await page.getByLabel('选择演示时辰').selectOption('19:20');
   assert.equal((await page.locator('.live-clock time').textContent())?.trim(), '19:20');
   await snap('03-day1-workbench.png');
@@ -118,7 +145,7 @@ try {
   assert.equal(await page.getByText('附近可探索').count(), 0);
   await page.getByRole('button', { name: /寻源兽·鱼/ }).click();
   await page.getByRole('dialog').waitFor({ state: 'visible' });
-  await page.getByText('来源 · 《夜郎神兽》项目设定', { exact: true }).waitFor();
+  await page.getByText(`展览内容 · ${canonicalBeastCard.source}`, { exact: true }).waitFor();
   await snap('04-explore-result.png');
   await page.getByRole('button', { name: '关闭', exact: true }).click();
 
@@ -154,23 +181,24 @@ try {
   await page.getByRole('button', { name: /确认落下唯一一笔/ }).click();
   await page.getByRole('button', { name: '这一笔已写入' }).waitFor({ state: 'visible' });
   assert.equal(await page.getByText('道纹已由账本确认').count(), 0);
-  assert.equal(await page.locator('.wall-dance img').evaluate((image) => image.getAttribute('src') === '/assets/day1/dance.png' && image.complete && image.naturalWidth > 0), true);
+  assert.equal(await page.locator('.wall-dance').count(), 0);
   await snap('06-paint-wall-written.png');
 
-  const day2 = page.locator('.day-switcher button').nth(1);
-  await day2.waitFor({ state: 'visible' });
-  await page.waitForFunction(() => !document.querySelectorAll('.day-switcher button')[1]?.hasAttribute('disabled'));
-  await day2.click();
-  await page.locator('.cinematic--rupture').waitFor({ state: 'visible' });
-  await snap('07-mask-rupture.png');
-  const continueToDay2 = page.getByRole('button', { name: '进入 DAY 02' });
-  if (await continueToDay2.isVisible().catch(() => false)) await continueToDay2.click();
+  const day2Prompt = page.getByRole('dialog');
+  await day2Prompt.getByRole('heading', { name: 'DAY2 已开启' }).waitFor({ state: 'visible' });
+  await snap('07-day2-unlocked-dialog.png');
+  await day2Prompt.getByRole('button', { name: '进入 DAY2' }).click();
   await page.waitForURL('**/day2', { timeout: 9000 });
-  await settleMotion();
   const rulesDialog = page.getByRole('dialog');
   await rulesDialog.getByRole('heading', { name: '开城之战 · 完整玩法' }).waitFor();
   for (const rule of ['先取资源', '按阵营行动', '扫码才会结算', '粮草改变伤害', '争哨站看路线']) await rulesDialog.getByText(rule, { exact: true }).waitFor();
   await rulesDialog.getByRole('button', { name: '我已知晓，进入战局' }).click();
+  const day2Poster = page.getByRole('button', { name: '收起 DAY TWO 海报，进入当天行程' });
+  await day2Poster.waitFor({ state: 'visible' });
+  await assertImageLoaded(day2Poster.locator('img'), '/assets/ui/Day2.png');
+  await snap('07a-day2-poster.png');
+  await day2Poster.click();
+  await settleMotion();
   assert.equal(await page.locator('.day2-map-dock').count(), 0);
   assert.equal(await page.locator('.day2-map').count(), 0);
   assert.equal(await page.getByText('PREPARING', { exact: true }).count(), 0);

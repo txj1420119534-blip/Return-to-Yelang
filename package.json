@@ -5,15 +5,23 @@
   "description": "《重返夜郎国》48h Hackathon monorepo root",
   "packageManager": "pnpm@9.0.0",
   "scripts": {
-    "build": "npm --prefix web run build && node scripts/prepare-sites-output.mjs",
     "dev:server": "pnpm --filter @yelang/server dev",
     "dev:web": "pnpm --filter @yelang/web dev",
-    "smoke": "bash server/tests/smoke.sh",
+    "typecheck": "pnpm --filter @yelang/server typecheck && pnpm --filter @yelang/web exec tsc -p tsconfig.json --noEmit && pnpm --filter @yelang/web exec tsc -p tsconfig.node.json --noEmit",
+    "build": "pnpm --filter @yelang/server build && npm --prefix web run build && node scripts/prepare-sites-output.mjs",
+    "smoke": "pnpm --filter @yelang/server smoke",
+    "qa:web": "node web/scripts/qa-walk.mjs",
+    "verify": "pnpm typecheck && pnpm build && pnpm smoke",
     "db:reset": "supabase db reset",
     "db:push": "supabase db push"
   },
   "engines": {
-    "node": ">=22.13.0",
+    "node": ">=20.19.0",
     "pnpm": ">=9"
+  },
+  "pnpm": {
+    "patchedDependencies": {
+      "vinext@1.0.0-beta.5": "patches/vinext@1.0.0-beta.5.patch"
+    }
   }
 }

@@ -1,0 +1,42 @@
+diff --git a/dist/routing/file-matcher.js b/dist/routing/file-matcher.js
+--- a/dist/routing/file-matcher.js
++++ b/dist/routing/file-matcher.js
+@@ -4 +4 @@
+-import { glob } from "node:fs/promises";
++import { opendir } from "node:fs/promises";
+@@ -140,7 +140,12 @@
+-/**
+-* Use function-form exclude for Node < 22.14 compatibility.
+-*
+-* Yields forward-slash relative paths: node's glob emits native (backslash)
+-* separators on Windows, so each match goes through `toSlash` — this is the
+-* boundary where external fs output enters the canonical forward-slash space.
+-*/
++async function* walkFiles(directory, relativeDirectory, exclude) {
++	const entries = await opendir(directory);
++	for await (const entry of entries) {
++		const relativePath = relativeDirectory ? path.join(relativeDirectory, entry.name) : entry.name;
++		if (entry.isDirectory()) {
++			if (exclude?.(entry.name)) continue;
++			yield* walkFiles(path.join(directory, entry.name), relativePath, exclude);
++			continue;
++		}
++		if (entry.isFile()) yield toSlash(relativePath);
++	}
++}
+@@ -148,5 +153,10 @@
+-	const pattern = includeDotDirectoryMatches(buildExtensionGlob(stem, extensions));
+-	for await (const file of glob(pattern, {
+-		cwd,
+-		...exclude ? { exclude } : {}
+-	})) yield toSlash(file);
++	if (!existsSync(cwd)) return;
++	const target = stem.startsWith("**/") ? stem.slice(3) : stem;
++	const matchAnyName = target === "*";
++	const extensionSet = new Set(extensions.map((extension) => extension.replace(/^\./, "")));
++	for await (const file of walkFiles(cwd, "", exclude)) {
++		const extension = path.extname(file).slice(1);
++		if (!extensionSet.has(extension)) continue;
++		if (!matchAnyName && path.basename(file, path.extname(file)) !== target) continue;
++		yield file;
++	}

@@ -1,9 +1,13 @@
 import assert from 'node:assert/strict';
 import { spawn } from 'node:child_process';
+import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { setTimeout as delay } from 'node:timers/promises';
 
 const port = 8791;
+const canonicalCards = JSON.parse(readFileSync(new URL('../../content/cards.json', import.meta.url), 'utf8'));
+const canonicalBeastCard = canonicalCards.find((card) => card.codes.includes('寻源兽·鱼'));
+assert.ok(canonicalBeastCard, 'content/cards.json contains the canonical 寻源兽·鱼 card');
 const server = spawn(process.execPath, ['node_modules/tsx/dist/cli.mjs', 'src/index.ts'], {
   cwd: fileURLToPath(new URL('..', import.meta.url)),
   env: { ...process.env, PORT: String(port) },
@@ -40,8 +44,17 @@ try {
   assert.equal((await request('/api/pick-mask-base', beastPlayer.body.token, { base_id: 'base-1' })).status, 200);
   const beastCard = await request('/api/scan', beastPlayer.body.token, { code: '寻源兽·鱼' });
   assert.equal(beastCard.status, 200);
-  assert.equal(beastCard.body.content_card.title, '寻源兽·鱼');
-  assert.equal(beastCard.body.content_card.source, '《夜郎神兽》项目设定');
+  assert.deepEqual(beastCard.body.content_card, {
+    id: canonicalBeastCard.id,
+    title: canonicalBeastCard.title,
+    body: canonicalBeastCard.body,
+    layer: canonicalBeastCard.layer,
+    source: canonicalBeastCard.source,
+    image_url: canonicalBeastCard.image_url ?? null,
+    audio_url: canonicalBeastCard.audio_url,
+    duration_sec: 20
+  });
+  assert.deepEqual(beastCard.body.fragment_gain, canonicalBeastCard.fragment);
 
   const latePlayer = await request('/api/enroll', null, { name: '迟到共绘者' });
   assert.equal((await request('/api/pick-mask-base', latePlayer.body.token, { base_id: 'base-1' })).status, 200);
